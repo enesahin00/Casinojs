@@ -1,0 +1,85 @@
+body { background: #0b2b18; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+
+/* Ekran büyüdüğünde çizgilerin kesişmesini engellemek için esnek yapı */
+#casino-table { 
+    width: 95%; 
+    max-width: 1100px; 
+    background: radial-gradient(circle, #1a472a 0%, #0b2b18 100%); 
+    border: 12px solid #3e2723; 
+    border-radius: 150px; 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: space-between; 
+    box-shadow: 0 25px 50px rgba(0,0,0,0.6); 
+    padding: 100px 20px 40px 20px; 
+    min-height: 90vh; 
+    box-sizing: border-box; 
+}
+
+/* Bakiye kutusunu masanın kavisli köşesini kesmeyecek şekilde sağa kaydırdık */
+#balance-bar { 
+    position: absolute; 
+    top: 25px; 
+    left: 65px; /* Değer artırılarak masanın border kavisinden kurtarıldı */
+    transform: none; 
+    background: rgba(0, 0, 0, 0.8); 
+    padding: 10px 20px; 
+    border: 2px solid #f1c40f; 
+    border-radius: 10px; 
+    color: #f1c40f; 
+    font-weight: bold; 
+    z-index: 100; 
+}
+
+.cards-row { display: flex; justify-content: center; gap: 12px; min-height: 130px; margin: 10px; }
+
+.card { width: 85px; height: 125px; background: white; color: black; border-radius: 8px; display: flex; flex-direction: column; justify-content: space-around; font-weight: bold; font-size: 24px; box-shadow: 4px 4px 10px rgba(0,0,0,0.4); text-align: center; border: 1px solid #ccc; }
+.red { color: #d32f2f; }
+
+.card-anim { animation: cardDrop 0.4s ease-out; }
+@keyframes cardDrop { 0% { opacity: 0; transform: translateY(-250px) rotate(-20deg); } 100% { opacity: 1; transform: translateY(0) rotate(0deg); } }
+
+#player-area { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 40px; 
+    width: 100%; 
+    margin: 40px 0; 
+}
+
+.hand-container { 
+    padding: 15px; 
+    padding-top: 35px; /* Sonuç etiketine yer bırakır */
+    border-radius: 15px; 
+    border: 2px solid transparent; 
+    transition: 0.3s; 
+    background: rgba(0,0,0,0.1); 
+    position: relative; 
+    text-align: center; 
+    min-width: 200px;
+}
+
+.active-hand { border-color: #f1c40f; box-shadow: 0 0 15px #f1c40f; transform: translateY(-10px); }
+
+/* Result Labels */
+.result-label { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); padding: 5px 15px; border-radius: 5px; font-weight: bold; font-size: 14px; text-transform: uppercase; z-index: 10; width: 80%; }
+.win-label { background: #2ecc71; color: white; box-shadow: 0 0 10px #2ecc71; }
+.lose-label { background: #e74c3c; color: white; box-shadow: 0 0 10px #e74c3c; }
+.push-label { background: #3498db; color: white; }
+
+#dealer-area { margin-top: 20px; text-align: center; }
+
+.ui-panel { min-height: 60px; }
+.input-group, .btn-group { display: flex; gap: 10px; align-items: center; }
+input { padding: 12px; width: 100px; border-radius: 5px; border: none; font-size: 18px; text-align: center; }
+button { padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.2s; text-transform: uppercase; }
+
+#btn-bet { background: #f1c40f; color: #000; }
+#btn-hit { background: #2ecc71; color: #fff; }
+#btn-stand { background: #e67e22; color: #fff; }
+#btn-double { background: #3498db; color: #fff; }
+#btn-split { background: #9b59b6; color: #fff; }
+#msg-box { color: #f1c40f; font-size: 1.4em; font-weight: bold; height: 30px; }

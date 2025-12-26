@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blackjack Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="casino-table">
+        <div id="balance-bar">BALANCE: <span id="balance">1000</span> TL</div>
+
+        <div id="dealer-area">
+            <div id="dealer-cards" class="cards-row"></div>
+            <div class="score-label">DEALER: <span id="dealer-score">?</span></div>
+        </div>
+
+        <div id="msg-box">Place your bet to start</div>
+
+        <div id="player-area"></div>
+
+        <div class="ui-panel">
+            <div id="bet-ui" class="input-group">
+                <input type="number" id="bet-input" value="100" min="10">
+                <button id="btn-bet" onclick="startGame()">PLACE BET & PLAY</button>
+            </div>
+
+            <div id="game-ui" class="btn-group" style="display:none;">
+                <button id="btn-hit" onclick="hit()">HIT</button>
+                <button id="btn-stand" onclick="stand()">STAND</button>
+                <button id="btn-double" onclick="doubleDown()">DOUBLE</button>
+                <button id="btn-split" onclick="splitHand()">SPLIT</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
