@@ -13,6 +13,21 @@ function playSound(name) {
         sounds[name].play().catch(e => console.warn("Ses çalma engellendi"));
     }
 }
+// --- VERİTABANI SİMÜLASYONU ---
+function saveGameToHistory(gameName, betAmount, resultStatus, winAmount) {
+    let history = JSON.parse(localStorage.getItem('casino_history')) || [];
+    const newEntry = {
+        game: gameName,
+        bet: betAmount,
+        result: resultStatus, // "WIN", "LOSE", "PUSH", "BLACKJACK"
+        amount: winAmount,
+        date: new Date().toLocaleString()
+    };
+    history.unshift(newEntry); // En yeni kaydı başa ekle
+    if (history.length > 20) history.pop(); // Sadece son 20 oyunu tut
+    localStorage.setItem('casino_history', JSON.stringify(history));
+    displayHistory(); // Tabloyu güncelle
+}
 
 // --- OYUN MANTIĞI ---
 const Suits = ["♥", "♦", "♣", "♠"];
@@ -169,15 +184,49 @@ async function dealerTurn() {
 function finish() {
     let d = dealerHand.score();
     let finalSound = "lose";
+
     playerHands.forEach((h) => {
         let p = h.score(), bj = h.cards.length === 2 && p === 21;
-        if(p > 21) { h.result = "BUST / LOSE"; }
-        else if(bj) { h.result = "BLACKJACK!"; balance += currentBet * 2.5; finalSound = "blackjack"; }
-        else if(d > 21 || p > d) { h.result = "WIN!"; balance += currentBet * 2; if(finalSound !== "blackjack") finalSound = "win"; }
-        else if(d > p) { h.result = "LOSE"; }
-        else { h.result = "PUSH"; balance += currentBet; if(finalSound !== "blackjack" && finalSound !== "win") finalSound = "push"; }
+        let winAmount = 0;
+        let status = "";
+
+        if(p > 21) { 
+            h.result = "BUST / LOSE"; 
+            status = "LOSE";
+            winAmount = 0;
+        }
+        else if(bj) { 
+            h.result = "BLACKJACK!"; 
+            balance += currentBet * 2.5; //
+            finalSound = "blackjack";
+            status = "BLACKJACK";
+            winAmount = currentBet * 2.5;
+        }
+        else if(d > 21 || p > d) { 
+            h.result = "WIN!"; 
+            balance += currentBet * 2; 
+            if(finalSound !== "blackjack") finalSound = "win";
+            status = "WIN";
+            winAmount = currentBet * 2;
+        }
+        else if(d > p) { 
+            h.result = "LOSE"; 
+            status = "LOSE";
+            winAmount = 0;
+        }
+        else { 
+            h.result = "PUSH"; 
+            balance += currentBet; //
+            if(finalSound !== "blackjack" && finalSound !== "win") finalSound = "push";
+            status = "PUSH";
+            winAmount = currentBet;
+        }
+
+        // --- VERİYİ KAYDET ---
+        saveGameToHistory("Blackjack", currentBet, status, winAmount);
     });
-    playSound(finalSound);
+
+    playSound(finalSound); //
     document.getElementById('msg-box').innerText = "Round Finished";
     updateUI(true);
 }
@@ -209,5 +258,49 @@ async function splitHand() {
     isProcessing = false;
     updateUI();
 }
+// Paneli aç/kapat
+function toggleHistory() {
+    const panel = document.getElementById('history-panel');
+    panel.classList.toggle('hidden');
+    if (!panel.classList.contains('hidden')) {
+        displayHistory();
+    }
+}
 
+// Veriyi LocalStorage'a Kaydet
+function saveGameToHistory(gameName, betAmount, resultStatus, winAmount) {
+    let history = JSON.parse(localStorage.getItem('casino_history')) || [];
+    const newEntry = {
+        game: gameName,
+        bet: betAmount,
+        result: resultStatus,
+        amount: winAmount,
+        date: new Date().toLocaleTimeString()
+    };
+    history.unshift(newEntry);
+    if (history.length > 20) history.pop();
+    localStorage.setItem('casino_history', JSON.stringify(history));
+    displayHistory();
+}
+
+// Tabloyu Güncelle
+function displayHistory() {
+    const body = document.getElementById('history-body');
+    if (!body) return;
+    const history = JSON.parse(localStorage.getItem('casino_history')) || [];
+    body.innerHTML = history.map(h => {
+        const resClass = h.amount > h.bet ? 'text-win' : (h.amount === h.bet ? 'text-push' : 'text-lose');
+        return `
+            <tr>
+                <td>${h.game}</td>
+                <td>${h.bet}</td>
+                <td class="${resClass}">${h.amount}</td>
+                <td>${h.result}</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// Sayfa yüklendiğinde geçmişi göster
+document.addEventListener('DOMContentLoaded', displayHistory);
 updateUI();

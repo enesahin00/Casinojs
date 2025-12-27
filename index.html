@@ -6,6 +6,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div id="balance-bar-bottom">
+    BALANCE: <span id="balance">1000</span> TL
+</div>
+
+<div id="history-wrapper">
+    <button id="btn-history" onclick="toggleHistory()">GAME HISTORY</button>
+    <div id="history-panel" class="hidden">
+        <h3>LATEST GAMES</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Game</th><th>Bet</th><th>Win</th><th>Result</th>
+                </tr>
+            </thead>
+            <tbody id="history-body"></tbody>
+        </table>
+    </div>
+</div>
     <div id="casino-table">
         <div id="balance-bar">BALANCE: <span id="balance">1000</span> TL</div>
 

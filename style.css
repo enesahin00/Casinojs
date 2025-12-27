@@ -83,3 +83,56 @@ button { padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; 
 #btn-double { background: #3498db; color: #fff; }
 #btn-split { background: #9b59b6; color: #fff; }
 #msg-box { color: #f1c40f; font-size: 1.4em; font-weight: bold; height: 30px; }
+/* Sol Alt Bakiye */
+#balance-bar-bottom {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 2px solid #f1c40f;
+    color: #f1c40f;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+/* Sağ Üst Geçmiş Yapısı */
+#history-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    text-align: right;
+}
+
+#btn-history {
+    background: #34495e;
+    color: white;
+    border: 1px solid #f1c40f;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#history-panel {
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid #f1c40f;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 15px;
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.hidden { display: none; }
+
+#history-panel table { width: 100%; border-collapse: collapse; font-size: 13px; }
+#history-panel th { border-bottom: 1px solid #444; padding: 5px; color: #f1c40f; }
+#history-panel td { padding: 8px 5px; text-align: center; border-bottom: 1px solid #222; }
+
+.text-win { color: #2ecc71; font-weight: bold; }
+.text-lose { color: #e74c3c; }
+.text-push { color: #3498db; }
